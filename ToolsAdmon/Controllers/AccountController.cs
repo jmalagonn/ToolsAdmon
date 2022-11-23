@@ -2,6 +2,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +25,11 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<AppUserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.Email.ToLower())) return BadRequest("El email ya ha sido registrado");
 
-            var user = this.mapper.Map<User>(registerDto);
+            var user = this.mapper.Map<AppUser>(registerDto);
 
             using var hmac = new HMACSHA512();
 
@@ -39,10 +40,35 @@ namespace API.Controllers
             this.context.Users.Add(user);
             await this.context.SaveChangesAsync();
 
-            return new UserDto
+            return new AppUserDto
             {
                 Name = user.Name,
                 Token = tokenService.CreateToken(user)
+            };
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<AppUserDto>> Login(LoginDto loginDto)
+        {
+            const string INVALID_CREDENTIALS = "Invalid email or password";
+            var user = await this.context.Users.SingleOrDefaultAsync(user => user.Email == loginDto.Email);
+
+            if (user == null) return Unauthorized(INVALID_CREDENTIALS);
+
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized(INVALID_CREDENTIALS);
+            }
+
+            return new AppUserDto
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Token = this.tokenService.CreateToken(user),
             };
         }
         private async Task<bool> UserExists(string email)

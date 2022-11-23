@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221123010455_Tools-and-company-entities-created")]
+    partial class Toolsandcompanyentitiescreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,39 +24,6 @@ namespace API.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("API.Entities.AppUser", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("Users");
-                });
 
             modelBuilder.Entity("API.Entities.Company", b =>
                 {
@@ -94,6 +64,39 @@ namespace API.Data.Migrations
                     b.ToTable("Tools");
                 });
 
+            modelBuilder.Entity("API.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("API.Entities.UserRole", b =>
                 {
                     b.Property<int>("UserRoleId")
@@ -111,7 +114,7 @@ namespace API.Data.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("AppUserUserRole", b =>
+            modelBuilder.Entity("UserUserRole", b =>
                 {
                     b.Property<int>("UserRolesUserRoleId")
                         .HasColumnType("int");
@@ -123,16 +126,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("UsersUserId");
 
-                    b.ToTable("AppUserUserRole");
-                });
-
-            modelBuilder.Entity("API.Entities.AppUser", b =>
-                {
-                    b.HasOne("API.Entities.Company", "Company")
-                        .WithMany("Users")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
+                    b.ToTable("UserUserRole");
                 });
 
             modelBuilder.Entity("API.Entities.Tool", b =>
@@ -146,7 +140,16 @@ namespace API.Data.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("AppUserUserRole", b =>
+            modelBuilder.Entity("API.Entities.User", b =>
+                {
+                    b.HasOne("API.Entities.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyId");
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("UserUserRole", b =>
                 {
                     b.HasOne("API.Entities.UserRole", null)
                         .WithMany()
@@ -154,7 +157,7 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.AppUser", null)
+                    b.HasOne("API.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UsersUserId")
                         .OnDelete(DeleteBehavior.Cascade)
