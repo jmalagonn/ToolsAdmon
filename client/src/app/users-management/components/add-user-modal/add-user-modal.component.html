@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Agregar Nuevo Usuario</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form *ngIf="addUserForm" [formGroup]="addUserForm" (ngSubmit)="addUserForm.valid && onSubmit()">
+        <div class="mb-3">
+            <label for="userName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="userName" formControlName="userName">
+        </div>
+        <button class="btn btn-outline-primary" [disabled]="!addUserForm.valid">Enviar</button>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="bsModalRef.hide()">Cerrar</button>
+</div>

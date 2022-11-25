@@ -13,6 +13,7 @@ namespace API.Controllers
     {
         private readonly ICompaniesRepository companiesRepository;
         private readonly IMapper mapper;
+        private readonly int userId;
 
         public CompaniesController(ICompaniesRepository companiesRepository, IMapper mapper)
         {
@@ -33,6 +34,15 @@ namespace API.Controllers
             Company newCompany = await this.companiesRepository.RegisterCompany(companyDto, userId);
 
             return Ok(this.mapper.Map<CompanyDto>(newCompany));
+        }
+
+        [HttpGet("info")]
+        public async Task<ActionResult<CompanyDto>> GetCompanyInfo()
+        {
+            int userId = User.GetUserId();
+            Company company = await this.companiesRepository.GetCompanyByUserId(userId);
+
+            return Ok(this.mapper.Map<CompanyDto>(company));
         }
     }
 }

@@ -8,7 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './Core/interceptors/jwt.interceptor';
 import { HeaderComponent } from './layout/header/header.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-import { AuthGuard } from './Core/guards/auth.guard';
 
 @NgModule({
   declarations: [

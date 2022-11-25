@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col">
+        <table class="table" *ngIf="tools">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tool of tools">
+                    <td>
+                        {{ tool.toolName }}
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCircleInfo" class="me-3 text-primary" role="button"></fa-icon>
+                        <fa-icon [icon]="faPen" class="me-3 text-primary" role="button"></fa-icon>
+                        <fa-icon [icon]="faTrash" class="me-3 text-danger" role="button"></fa-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

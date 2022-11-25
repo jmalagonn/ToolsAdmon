@@ -1,44 +1,12 @@
 <div class="row justify-content-center g-3 mt-3">
-    <div class="col-sm-6">
-        <div class="option-card">
-
+    <div class="col-sm-6" *ngFor="let item of appConstants.MENU_ITEMS">
+        <div class="option-card" >
+            <a [routerLink]="['/', item.path]"></a>
             <div class="option-card__icon">
-                <fa-icon [icon]="faToolbox"></fa-icon>
+                <fa-icon [icon]="item.icon"></fa-icon>
             </div>
             <div class="option-card__title">
-                Salida de equipos y herramienta
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="option-card">
-            <div class="option-card__icon">
-                <fa-icon [icon]="faScrewdriverWrench"></fa-icon>
-            </div>
-            <div class="option-card__title">
-                Administración de equipos y herramienta
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="option-card">
-
-            <div class="option-card__icon">
-                <fa-icon [icon]="faUserGroup"></fa-icon>
-            </div>
-            <div class="option-card__title">
-                Administración de usuarios
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="option-card">
-
-            <div class="option-card__icon">
-                <fa-icon [icon]="faUserPen"></fa-icon>
-            </div>
-            <div class="option-card__title">
-                Editar perfil
+                {{ item.title }}
             </div>
         </div>
     </div>

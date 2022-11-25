@@ -34,8 +34,10 @@ namespace API.Repositories
 
             newTool.Company = company;
             newTool.CompanyId = company.CompanyId;
+            newTool.ToolGuid = Guid.NewGuid().ToString();
 
-            await this.context.Tools.AddAsync(newTool);
+            this.context.Tools.Add(newTool);
+            await this.context.SaveChangesAsync();
 
             return newTool;
         }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppConstants } from 'src/app/Core/constants/app-constants';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -7,6 +8,8 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  appConstants = AppConstants;
+  
   constructor(private accountService: AccountService) {}
 
   onLogout() {

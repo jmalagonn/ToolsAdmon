@@ -1,0 +1,8 @@
+<div class="container">
+    <h2 class="text-center mt-3">Administración de usuarios</h2>
+    <div class="text-center mt-3">
+        <button class="btn btn-outline-primary" (click)="onOpenAddUserModal()">Agregar usuario</button>
+    </div>
+    <h4 class="text-center mt-3">Lista de usuarios</h4>
+    <app-users-list [users]="users"></app-users-list>
+</div>

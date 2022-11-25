@@ -4,5 +4,6 @@
     {
         public int ToolId { get; set; }
         public string ToolName { get; set; }
+        public string? ToolGuid { get; set; }
     }
 }

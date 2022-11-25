@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faScrewdriverWrench, faToolbox, faUserGroup, faUserPen } from '@fortawesome/free-solid-svg-icons';
+import { AppConstants } from 'src/app/Core/constants/app-constants';
 
 @Component({
   selector: 'app-dashboard-options',
@@ -7,8 +7,7 @@ import { faScrewdriverWrench, faToolbox, faUserGroup, faUserPen } from '@fortawe
   styleUrls: ['./dashboard-options.component.scss']
 })
 export class DashboardOptionsComponent {
-  faToolbox = faToolbox;
-  faScrewdriverWrench = faScrewdriverWrench;
-  faUserGroup = faUserGroup;
-  faUserPen = faUserPen;
+  appConstants = AppConstants;
+
+  constructor() {}
 }

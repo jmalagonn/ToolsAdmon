@@ -14,27 +14,30 @@ namespace API.Controllers
         private readonly IToolsRepository toolsRepository;
         private readonly IMapper mapper;
         private readonly ICompaniesRepository companiesRepository;
-        private readonly int userId;
 
         public ToolsController(IToolsRepository toolsRepository, IMapper mapper, ICompaniesRepository companiesRepository)
         {
             this.toolsRepository = toolsRepository;
             this.mapper = mapper;
             this.companiesRepository = companiesRepository;
-            this.userId = User.GetUserId();
         }
 
         [HttpPost]
         public async Task<ActionResult<ToolDto>> RegisterTool(ToolDto tool)
         {
-            return Ok(this.mapper.Map<ToolDto>(await this.toolsRepository.RegisterTool(tool, this.userId)));
+            int userId = User.GetUserId();
+
+            return Ok(this.mapper.Map<ToolDto>(await this.toolsRepository.RegisterTool(tool, userId)));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ToolDto>>> GetToolsByCompany()
         {
-            var company = await this.companiesRepository.GetCompanyByUserId(this.userId);
-            return Ok(await this.toolsRepository.GetToolsByCompany(company.CompanyId));
+            int userId = User.GetUserId();
+            var company = await this.companiesRepository.GetCompanyByUserId(userId);
+            var tools = await this.toolsRepository.GetToolsByCompany(company.CompanyId);
+
+            return Ok(this.mapper.Map<List<ToolDto>>(tools));
         }
     }
 }
