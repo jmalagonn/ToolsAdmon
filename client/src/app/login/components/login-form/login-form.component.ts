@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { Account } from 'src/app/Core/models/Account.model';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -11,6 +12,8 @@ import { HttpService } from 'src/app/services/http.service';
 export class LoginFormComponent implements OnInit {
   faLock = faLock;
   loginForm?: FormGroup;
+
+  @Output() submitEvent = new EventEmitter<Account>();
 
   constructor(private fb: FormBuilder, private httpService: HttpService) {}
 
@@ -31,6 +34,8 @@ export class LoginFormComponent implements OnInit {
       password: this.loginForm?.controls["password"].value,
     }
 
-    this.httpService.post('Account/login', body).subscribe(response => { console.log(response) })
+    this.httpService.post<Account>('Account/login', body).subscribe(response => { 
+      this.submitEvent.emit(response);
+    })
   }
 }

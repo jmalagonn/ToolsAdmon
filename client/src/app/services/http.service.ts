@@ -11,11 +11,11 @@ export class HttpService {
 
   constructor(private httpClient: HttpClient) { }
 
-  get(path: string): Observable<any> {
-    return this.httpClient.get(this.api_url + path);
+  get<T>(path: string): Observable<T> {
+    return this.httpClient.get<T>(this.api_url + path);
   } 
 
-  post(path: string, body: object): Observable<any> {
-    return this.httpClient.post(this.api_url + path, body);
+  post<T>(path: string, body: object): Observable<T> {
+    return this.httpClient.post<T>(this.api_url + path, body);
   }
 }
