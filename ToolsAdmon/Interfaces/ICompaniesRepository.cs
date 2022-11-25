@@ -5,6 +5,7 @@ namespace API.Interfaces
 {
     public interface ICompaniesRepository
     {
+        public Task<IEnumerable<Company>> GetCompanies();
         public Task<Company> GetCompany(int companyId);
         public Task<Company> GetCompany(string companyName);
         public Task<Company> GetCompanyByUserId(int userId);

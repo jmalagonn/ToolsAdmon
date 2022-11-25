@@ -20,6 +20,18 @@ namespace API.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "ClientAppCors",
+                                  policy =>
+                                  {
+                                      policy
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .WithOrigins("http://localhost:4200",
+                                                     "http://localhost:4200");
+                                  });
+            });
 
             return services;
         }

@@ -2,25 +2,37 @@
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class CompaniesController : BaseApiController
     {
         private readonly ICompaniesRepository companiesRepository;
+        private readonly IMapper mapper;
 
-        public CompaniesController(ICompaniesRepository companiesRepository)
+        public CompaniesController(ICompaniesRepository companiesRepository, IMapper mapper)
         {
             this.companiesRepository = companiesRepository;
+            this.mapper = mapper;
+        }
+
+        [HttpGet] 
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompanies() 
+        {
+            return Ok(await this.companiesRepository.GetCompanies());
         }
 
         [HttpPost]
-        public async Task<ActionResult<Company>> RegisterCompany(CompanyDto companyDto)
+        public async Task<ActionResult<CompanyDto>> RegisterCompany(CompanyDto companyDto)
         {
             int userId = User.GetUserId();
+            Company newCompany = await this.companiesRepository.RegisterCompany(companyDto, userId);
 
-            return Ok(await this.companiesRepository.RegisterCompany(companyDto, userId));
+            return Ok(this.mapper.Map<CompanyDto>(newCompany));
         }
     }
 }

@@ -6,5 +6,6 @@ namespace API.Interfaces
     public interface IToolsRepository
     {
         public Task<Tool> RegisterTool(ToolDto tool, int userId);
+        public Task<IEnumerable<Tool>> GetToolsByCompany(int companyId);
     }
 }

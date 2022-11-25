@@ -3,6 +3,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace API.Repositories
@@ -18,6 +19,11 @@ namespace API.Repositories
             this.context = context;
             this.companiesRepository = companiesRepository;
             this.mapper = mapper;
+        }
+
+        public async Task<IEnumerable<Tool>> GetToolsByCompany(int companyId)
+        {
+            return await this.context.Tools.Where(x => x.CompanyId == companyId).ToListAsync();
         }
 
         public async Task<Tool> RegisterTool(ToolDto tool, int userId)
