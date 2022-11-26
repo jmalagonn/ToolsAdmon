@@ -29,6 +29,10 @@ const routes: Routes = [
       {
         path: 'users-management',
         loadChildren: () => import('./users-management/users-management.module').then(m => m.UsersManagementModule)
+      },
+      {
+        path: 'tools-output',
+        loadChildren: () => import('./tools-output/tools-output.module').then(m => m.ToolsOutputModule)
       }
     ]
   },

@@ -26,16 +26,16 @@ export class AddUserModalComponent {
 
   initForm() {
     this.addUserForm = this.fb.group({
-      userName: ['', Validators.required]
+      name: ['', Validators.required]
     });
   }
 
   onSubmit() {
     const body = {
-      userName: this.addUserForm?.controls["userName"].value
+      name: this.addUserForm?.controls["name"].value
     };
 
-    this.httpService.post<User>('Users', body).subscribe(User => {
+    this.httpService.post<User>('Users/addEmployee', body).subscribe(User => {
       this.bsModalRef.hide();
       this.bsModalRef.onHide.emit(User);
     });

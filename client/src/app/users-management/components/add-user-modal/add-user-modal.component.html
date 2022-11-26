@@ -7,8 +7,8 @@
 <div class="modal-body">
     <form *ngIf="addUserForm" [formGroup]="addUserForm" (ngSubmit)="addUserForm.valid && onSubmit()">
         <div class="mb-3">
-            <label for="userName" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="userName" formControlName="userName">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="userName" formControlName="name">
         </div>
         <button class="btn btn-outline-primary" [disabled]="!addUserForm.valid">Enviar</button>
     </form>

@@ -6,7 +6,7 @@ export class AppConstants {
         {
             title: 'Salida de equipos y herramienta',
             icon: faToolbox,
-            path: 'output-tools'
+            path: 'tools-output'
         },
         {
             title: 'Administración de equipos y herramienta',

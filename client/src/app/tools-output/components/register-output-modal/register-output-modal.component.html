@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Registrar nueva salida</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="row" *ngIf="employees">
+            <div class="col">
+                <label for="responsible" class="form-label">Responsable</label>
+                <app-dropdown class="d-block" [label]="'Responsable'" [options]="employees | toDropdownItem:'id':'name'"></app-dropdown>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <h5>Listado de herramientas</h5>
+            <app-available-tools-list [tools]="tools"></app-available-tools-list>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="bsModalRef.hide()">Cerrar</button>
+</div>

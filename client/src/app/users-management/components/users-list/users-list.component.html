@@ -1,1 +1,25 @@
-<p>users-list works!</p>
+<div class="row" *ngIf="users">
+    <div class="col">
+        <p *ngIf="!users.length" class="text-center">No se han registrado usuarios aún.</p>
+        <table class="table" *ngIf="users.length">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>
+                        {{ user.name }}
+                    </td>
+                    <td>
+                        <fa-icon [icon]="faCircleInfo" class="me-3 text-primary" role="button"></fa-icon>
+                        <fa-icon [icon]="faPen" class="me-3 text-primary" role="button"></fa-icon>
+                        <fa-icon [icon]="faTrash" class="me-3 text-danger" role="button"></fa-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

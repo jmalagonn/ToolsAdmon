@@ -30,27 +30,37 @@ namespace API.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("IdCard")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -85,17 +95,59 @@ namespace API.Data.Migrations
 
                     b.Property<string>("ToolGuid")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ToolName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ToolStateId")
+                        .HasColumnType("int");
+
                     b.HasKey("ToolId");
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("ToolGuid")
+                        .IsUnique();
+
+                    b.HasIndex("ToolStateId");
+
                     b.ToTable("Tools");
+                });
+
+            modelBuilder.Entity("API.Entities.ToolState", b =>
+                {
+                    b.Property<int>("ToolStateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToolStateId"));
+
+                    b.Property<string>("ToolStateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ToolStateId");
+
+                    b.ToTable("ToolStates");
+
+                    b.HasData(
+                        new
+                        {
+                            ToolStateId = 1,
+                            ToolStateName = "Available"
+                        },
+                        new
+                        {
+                            ToolStateId = 2,
+                            ToolStateName = "Damaged"
+                        },
+                        new
+                        {
+                            ToolStateId = 3,
+                            ToolStateName = "Lent"
+                        });
                 });
 
             modelBuilder.Entity("API.Entities.UserRole", b =>
@@ -113,21 +165,38 @@ namespace API.Data.Migrations
                     b.HasKey("UserRoleId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserRoleId = 1,
+                            UserRoleName = "AppAdmin"
+                        },
+                        new
+                        {
+                            UserRoleId = 2,
+                            UserRoleName = "CompanyAdmin"
+                        },
+                        new
+                        {
+                            UserRoleId = 3,
+                            UserRoleName = "CompanyEmployee"
+                        });
                 });
 
-            modelBuilder.Entity("AppUserUserRole", b =>
+            modelBuilder.Entity("API.Entities.UserRoleAppUser", b =>
                 {
-                    b.Property<int>("UserRolesUserRoleId")
+                    b.Property<int>("UserRoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserRolesUserRoleId", "UsersUserId");
+                    b.HasKey("UserRoleId", "AppUserId");
 
-                    b.HasIndex("UsersUserId");
+                    b.HasIndex("AppUserId");
 
-                    b.ToTable("AppUserUserRole");
+                    b.ToTable("UserRolesAppUsers");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
@@ -147,22 +216,39 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.ToolState", "ToolState")
+                        .WithMany()
+                        .HasForeignKey("ToolStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
+
+                    b.Navigation("ToolState");
                 });
 
-            modelBuilder.Entity("AppUserUserRole", b =>
+            modelBuilder.Entity("API.Entities.UserRoleAppUser", b =>
                 {
-                    b.HasOne("API.Entities.UserRole", null)
-                        .WithMany()
-                        .HasForeignKey("UserRolesUserRoleId")
+                    b.HasOne("API.Entities.AppUser", "AppUser")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
+                    b.HasOne("API.Entities.UserRole", "UserRole")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("API.Entities.AppUser", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("API.Entities.Company", b =>
@@ -170,6 +256,11 @@ namespace API.Data.Migrations
                     b.Navigation("Tools");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("API.Entities.UserRole", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

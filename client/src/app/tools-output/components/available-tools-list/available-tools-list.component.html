@@ -1,0 +1,17 @@
+<p *ngIf="tools && !tools.length">No hay herramientas disponibles</p>
+<table class="table" *ngIf="tools && tools.length">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tool of tools">
+            <td>{{ tool.toolGuid | lastCharacters:6 }}</td>
+            <td>{{ tool.toolName }}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

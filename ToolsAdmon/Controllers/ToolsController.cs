@@ -39,5 +39,15 @@ namespace API.Controllers
 
             return Ok(this.mapper.Map<List<ToolDto>>(tools));
         }
+
+        [HttpGet("available-tools")]
+        public async Task<ActionResult<IEnumerable<ToolDto>>> GetAvailableTools()
+        {
+            int userId = User.GetUserId();
+            var company = await this.companiesRepository.GetCompanyByUserId(userId);
+            var tools = await this.toolsRepository.GetAvailableTools(company.CompanyId);
+
+            return Ok(this.mapper.Map<List<ToolDto>>(tools));
+        }
     }
 }

@@ -18,7 +18,7 @@ export class UsersManagementComponent {
     private httpService: HttpService) { }
 
   ngOnInit(): void {
-    // this.getUsersList();
+    this.getUsersList();
   }
 
   onOpenAddUserModal() {
@@ -26,7 +26,7 @@ export class UsersManagementComponent {
 
     if (this.modalRef?.onHide) {
       this.modalRef.onHide.subscribe((user: User) => {
-        if(!user.idCard) return;
+        if(!user.name) return;
 
         this.getUsersList();
       });
@@ -34,6 +34,6 @@ export class UsersManagementComponent {
   }
 
   getUsersList(): void {
-    this.httpService.get<User[]>('Users').subscribe(response => this.users = response);
+    this.httpService.get<User[]>('Users/employees').subscribe(response => this.users = response);
   }
 }

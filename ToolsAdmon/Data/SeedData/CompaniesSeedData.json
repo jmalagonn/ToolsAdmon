@@ -1,0 +1,22 @@
+[
+  {
+    "CompanyName": "GMC Refrigeracion",
+    "Users": [
+      {
+        "Name": "Gonzalo Malagon",
+        "Email": "gmc_refri@hotmail.com",
+        "UserRoles": [
+          {
+            "UserRoleId": 2
+          }
+        ]
+      }
+    ],
+    "Tools": [
+      {
+        "ToolName": "Destornillador de estrella",
+        "ToolStateId": 1
+      }
+    ]
+  }
+]
