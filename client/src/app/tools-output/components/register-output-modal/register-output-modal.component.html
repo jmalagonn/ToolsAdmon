@@ -5,16 +5,38 @@
     </button>
 </div>
 <div class="modal-body">
-    <form>
+    <form 
+        *ngIf="registerOutputForm" 
+        [formGroup]="registerOutputForm" 
+        (ngSubmit)="registerOutputForm.valid && registerOutput()">
         <div class="row" *ngIf="employees">
             <div class="col">
                 <label for="responsible" class="form-label">Responsable</label>
-                <app-dropdown class="d-block" [label]="'Responsable'" [options]="employees | toDropdownItem:'id':'name'"></app-dropdown>
+                <app-dropdown 
+                    class="d-block" 
+                    [label]="'Responsable'" 
+                    [options]="employees | toDropdownItem:'userId':'name'"
+                    (onSelectOptionEvent)="onSelectResponsible($event)"></app-dropdown>
             </div>
         </div>
         <div class="row mt-3">
-            <h5>Listado de herramientas</h5>
-            <app-available-tools-list [tools]="tools"></app-available-tools-list>
+            <div class="col">
+                <h5>Herramientas seleccionadas</h5>
+                <app-selected-tools-list 
+                    [tools]="selectedTools"
+                    (deleteToolEvent)="onDeleteTool($event)"></app-selected-tools-list>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <h5>Listado de herramientas</h5>
+                <app-available-tools-list 
+                    [tools]="availableTools"
+                    (selectToolEvent)="onSelectTool($event)"></app-available-tools-list>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-outline-primary" [disabled]="!registerOutputForm.valid">Registrar salida</button>
         </div>
     </form>
 </div>

@@ -1,4 +1,4 @@
-<p *ngIf="tools && !tools.length">No hay herramientas disponibles</p>
+<p *ngIf="!tools || (tools && !tools.length)">No hay herramientas seleccionadas</p>
 <table class="table" *ngIf="tools && tools.length">
     <thead>
         <tr>
@@ -14,10 +14,10 @@
             <td>
                 <fa-icon [icon]="faCircleInfo" class="me-2" role="button"></fa-icon>
                 <fa-icon 
-                    [icon]="faPlus" 
+                    [icon]="faTrash" 
                     role="button" 
-                    class="text-primary"
-                    (click)="onSelectTool(tool)"></fa-icon>
+                    class="text-danger"
+                    (click)="onDeleteTool(tool)"></fa-icon>
             </td>
         </tr>
     </tbody>

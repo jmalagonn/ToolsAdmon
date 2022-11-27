@@ -12,5 +12,6 @@ namespace API.Interfaces
         public Task<bool> DeleteUser(string email);
         public Task<AppUser> RegisterEmployee(EmployeeDto employeeDto, int adminUserId);
         public Task<IEnumerable<AppUser>> GetEmployees(int adminUserId);
+        public Task<bool> SetUserRole(string userRoleName, AppUser user);
     }
 }

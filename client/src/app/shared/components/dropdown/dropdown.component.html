@@ -1,7 +1,7 @@
 <div class="btn-group" dropdown>
     <button dropdownToggle type="button" class="btn btn-outline-dark dropdown-toggle"
         aria-controls="dropdown-basic">
-        {{ label }} <span class="caret"></span>
+        {{ selectedOption ? selectedOption.description : label }} <span class="caret"></span>
     </button>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
         <li 

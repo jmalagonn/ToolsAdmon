@@ -60,6 +60,7 @@ namespace API.Repositories
 
             this.context.Users.Add(employee);
             await this.context.SaveChangesAsync();
+            await this.SetUserRole("CompanyEmployee", employee);
 
             return employee;      
         }
@@ -74,6 +75,14 @@ namespace API.Repositories
                     x.CompanyId == adminUser.CompanyId &&
                     x.UserId != adminUserId)
                 .ToListAsync();
+        }
+
+        public async Task<bool> SetUserRole(string userRoleName, AppUser user)
+        {
+            var userRole = await this.context.UserRoles.SingleAsync(x => x.UserRoleName == userRoleName);
+            this.context.UserRolesAppUsers.Add(new UserRoleAppUser { AppUserId = user.UserId, UserRoleId = userRole.UserRoleId });
+
+            return await this.context.SaveChangesAsync() > 0;
         }
     }
 }
