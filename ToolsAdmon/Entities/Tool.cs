@@ -9,5 +9,6 @@
         public int ToolStateId { get; set; }
         public Company Company { get; set; }
         public int CompanyId { get; set; }
+        public ICollection<ToolOutputTool> OutputTools { get; set; }
     }
 }

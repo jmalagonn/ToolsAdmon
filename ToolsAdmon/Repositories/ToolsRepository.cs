@@ -55,5 +55,12 @@ namespace API.Repositories
                     x.ToolStateId == availableToolState.ToolStateId)
                 .ToListAsync();
         }
+
+        public async Task SetToolState(Tool tool, int toolStateId)
+        {
+            tool.ToolStateId = toolStateId;
+            this.context.Tools.Update(tool);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

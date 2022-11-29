@@ -16,6 +16,7 @@ namespace API.Extensions
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<ICompaniesRepository, CompaniesRepository>();
             services.AddScoped<IToolsRepository, ToolsRepository>();
+            services.AddScoped<IOutputToolsRepository, OutputToolsRepository>();
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DropdownItem } from 'src/app/Core/models/Dropdown-item.model';
 import { Tool } from 'src/app/Core/models/Tool.model';
+import { ToolsOutput } from 'src/app/Core/models/Tools-output.model';
 import { User } from 'src/app/Core/models/User.model';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -41,8 +42,6 @@ export class RegisterOutputModalComponent implements OnInit {
     this.availableTools = this.availableTools?.filter(tool => tool.toolId != selectedTool.toolId);
     this.selectedTools?.push(selectedTool);    
     this.registerOutputForm!.controls["tools"].patchValue(this.selectedTools);  
-    
-    console.log(this.registerOutputForm);
   }
 
   onDeleteTool(toBeDeleted: Tool): void {
@@ -58,8 +57,12 @@ export class RegisterOutputModalComponent implements OnInit {
     });
   }
 
-  registerOutput() {
-    console.log(this.registerOutputForm);
+  registerOutput(): void {
+    this.httpService.post<ToolsOutput>('OutputTools', this.registerOutputForm?.value)
+      .subscribe(response => {
+        this.bsModalRef.hide();
+        console.log(response)
+      });
   }
 
   onSelectResponsible(user: DropdownItem): void {

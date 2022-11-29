@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221128230324_Output-tools-created-by-column-added")]
+    partial class Outputtoolscreatedbycolumnadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,21 +189,6 @@ namespace API.Data.Migrations
                     b.ToTable("Tools");
                 });
 
-            modelBuilder.Entity("API.Entities.ToolOutputTool", b =>
-                {
-                    b.Property<int>("ToolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OutputToolId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ToolId", "OutputToolId");
-
-                    b.HasIndex("OutputToolId");
-
-                    b.ToTable("ToolOutputTools");
-                });
-
             modelBuilder.Entity("API.Entities.ToolState", b =>
                 {
                     b.Property<int>("ToolStateId")
@@ -351,25 +339,6 @@ namespace API.Data.Migrations
                     b.Navigation("ToolState");
                 });
 
-            modelBuilder.Entity("API.Entities.ToolOutputTool", b =>
-                {
-                    b.HasOne("API.Entities.OutputTool", "OutputTool")
-                        .WithMany()
-                        .HasForeignKey("OutputToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Tool", "Tool")
-                        .WithMany("Tools")
-                        .HasForeignKey("ToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OutputTool");
-
-                    b.Navigation("Tool");
-                });
-
             modelBuilder.Entity("API.Entities.UserRoleAppUser", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
@@ -402,11 +371,6 @@ namespace API.Data.Migrations
                 });
 
             modelBuilder.Entity("API.Entities.OutputTool", b =>
-                {
-                    b.Navigation("Tools");
-                });
-
-            modelBuilder.Entity("API.Entities.Tool", b =>
                 {
                     b.Navigation("Tools");
                 });

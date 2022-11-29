@@ -7,6 +7,7 @@ import { RegisterOutputModalComponent } from './components/register-output-modal
 import { SharedModule } from '../shared/shared.module';
 import { AvailableToolsListComponent } from './components/available-tools-list/available-tools-list.component';
 import { SelectedToolsListComponent } from './components/selected-tools-list/selected-tools-list.component';
+import { OpenToolsOutputListComponent } from './components/open-tools-output-list/open-tools-output-list.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SelectedToolsListComponent } from './components/selected-tools-list/sel
     ToolsOutputComponent,
     RegisterOutputModalComponent,
     AvailableToolsListComponent,
-    SelectedToolsListComponent
+    SelectedToolsListComponent,
+    OpenToolsOutputListComponent
   ],
   imports: [
     CommonModule,

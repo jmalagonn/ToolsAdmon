@@ -1,4 +1,5 @@
 ﻿using API.Entities;
+using API.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -15,6 +16,9 @@ namespace API.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Tool> Tools { get; set; }
         public DbSet<ToolState> ToolStates { get; set; }
+        public DbSet<OutputTool> OutputTools { get; set; }
+        public DbSet<OutputToolState> OutputToolStates { get; set; }
+        public DbSet<ToolOutputTool> ToolOutputTools { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,23 +27,20 @@ namespace API.Data
             builder.Entity<UserRoleAppUser>()
                 .HasKey(k => new { k.UserRoleId, k.AppUserId });
 
+            builder.Entity<ToolOutputTool>()
+                .HasKey(k => new { k.ToolId, k.OutputToolId });
+
             builder.Entity<AppUser>()
                 .HasIndex(u => u.Email).IsUnique();
 
             builder.Entity<Tool>()
                 .HasIndex(u => u.ToolGuid).IsUnique();
 
-            builder.Entity<ToolState>().HasData(new List<ToolState> {
-                new ToolState{ToolStateId=1,ToolStateName="Disponible"},
-                new ToolState{ToolStateId=2,ToolStateName="Con novedad"},
-                new ToolState{ToolStateId=3,ToolStateName="Prestado"},
-            });
+            builder.Entity<ToolState>().HasData(AppConstants.INITIAL_TOOL_STATES);
 
-            builder.Entity<UserRole>().HasData(new List<UserRole> {
-                new UserRole{UserRoleId=1,UserRoleName="AppAdmin"},
-                new UserRole{UserRoleId=2,UserRoleName="CompanyAdmin"},
-                new UserRole{UserRoleId=3,UserRoleName="CompanyEmployee"},
-            });
+            builder.Entity<UserRole>().HasData(AppConstants.INITIAL_USER_ROLES);
+
+            builder.Entity<OutputToolState>().HasData(AppConstants.INITIAL_OUTPUT_TOOL_STATES);
         }
     }
 }

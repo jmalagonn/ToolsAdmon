@@ -10,6 +10,9 @@ namespace API.Helpers
         {
             CreateMap<RegisterDto, AppUser>();
             CreateMap<EmployeeDto, AppUser>();
+            CreateMap<AppUserDto, AppUser>();
+
+            CreateMap<AppUser, AppUserDto>();
             CreateMap<AppUser, EmployeeDto>();
 
             CreateMap<CompanyDto, Company>();
@@ -17,6 +20,9 @@ namespace API.Helpers
 
             CreateMap<ToolDto, Tool>();
             CreateMap<Tool, ToolDto>();
+
+            CreateMap<OutputTool, OutputToolDto>();
+            CreateMap<OutputToolDto, OutputTool>();
         }
     }
 }
