@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ToolsOutput } from 'src/app/Core/models/Tools-output.model';
+import { OutputTool } from 'src/app/Core/models/Output-tool.model';
 import { HttpService } from 'src/app/services/http.service';
 import { RegisterOutputModalComponent } from '../../components/register-output-modal/register-output-modal.component';
 
@@ -11,7 +11,9 @@ import { RegisterOutputModalComponent } from '../../components/register-output-m
 })
 export class ToolsOutputComponent implements OnInit {
   modalRef?: BsModalRef;
-  outputToolsRegisters?: ToolsOutput[];
+  outputToolsRegisters?: OutputTool[];
+  openOutputTools?: OutputTool[];
+  closedOutputTools?: OutputTool[];
 
   constructor(
     private modalService: BsModalService,
@@ -26,6 +28,10 @@ export class ToolsOutputComponent implements OnInit {
   }
 
   getOutputToolsRegisters(): void {
-    this.httpService.get<ToolsOutput[]>('OutputTools').subscribe(response => this.outputToolsRegisters = response);
+    this.httpService.get<OutputTool[]>('OutputTools').subscribe(response => {
+      this.outputToolsRegisters = response
+      this.openOutputTools = this.outputToolsRegisters.filter(outputTool => outputTool.outputToolState.outputToolStateName == "Open");
+      this.closedOutputTools = this.outputToolsRegisters.filter(outputTool => outputTool.outputToolState.outputToolStateName != "Open");
+    });
   }
 }

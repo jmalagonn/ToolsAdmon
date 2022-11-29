@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DropdownItem } from 'src/app/Core/models/Dropdown-item.model';
 import { Tool } from 'src/app/Core/models/Tool.model';
-import { ToolsOutput } from 'src/app/Core/models/Tools-output.model';
+import { OutputTool } from 'src/app/Core/models/Output-tool.model';
 import { User } from 'src/app/Core/models/User.model';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -58,7 +58,7 @@ export class RegisterOutputModalComponent implements OnInit {
   }
 
   registerOutput(): void {
-    this.httpService.post<ToolsOutput>('OutputTools', this.registerOutputForm?.value)
+    this.httpService.post<OutputTool>('OutputTools', this.registerOutputForm?.value)
       .subscribe(response => {
         this.bsModalRef.hide();
         console.log(response)

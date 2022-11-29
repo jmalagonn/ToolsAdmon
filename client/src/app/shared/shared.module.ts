@@ -8,12 +8,14 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ToDropdownItemPipe } from './pipes/to-dropdown-item.pipe';
 import { LastCharactersPipe } from './pipes/last-characters.pipe';
+import { OutputToolStatePipe } from './pipes/output-tool-state.pipe';
 
 @NgModule({
   declarations: [
     DropdownComponent,
     ToDropdownItemPipe,
-    LastCharactersPipe
+    LastCharactersPipe,
+    OutputToolStatePipe
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { LastCharactersPipe } from './pipes/last-characters.pipe';
     DropdownComponent,
     ToDropdownItemPipe,
     LastCharactersPipe,
+    OutputToolStatePipe
   ]
 })
 export class SharedModule { }

@@ -35,6 +35,15 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{outputToolId}")]
+        public async Task<ActionResult<OutputToolDto>> GetOutputTool(int outputToolId)
+        {
+            OutputTool outputTool = await this.outputToolsRepository.GetOutputTool(outputToolId);
+            OutputToolDto result = new DataMapping(this.mapper).OutputToolToDto(outputTool);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult<OutputToolDto>> RegisterOutputTool(OutputToolDto outputToolDto)
         {

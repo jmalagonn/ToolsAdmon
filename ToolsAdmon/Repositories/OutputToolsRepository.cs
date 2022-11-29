@@ -29,11 +29,16 @@ namespace API.Repositories
 
         public async Task<OutputTool> GetOutputTool(int outputToolId)
         {
+            var toolsOutputTool = await this.context.ToolOutputTools
+                .Include(x => x.Tool)
+                .Where(x => x.OutputToolId == outputToolId)
+                .ToListAsync();
+
             return await this.context.OutputTools
                 .Include(x => x.Tools)
+                .Include(x => x.Responsible)
                 .Include(x => x.OutputToolState)
-                .Where(x => x.OutputToolId == outputToolId)
-                .SingleAsync();
+                .SingleAsync(x => x.OutputToolId == outputToolId);
         }
 
         public async Task<IEnumerable<OutputTool>> GetOutputTools(int userId)
@@ -46,14 +51,6 @@ namespace API.Repositories
                 .Include(x => x.Responsible)
                 .Where(x => x.CompanyId == company.CompanyId)
                 .ToListAsync();
-
-            foreach(var item in outputTools)
-            {
-                foreach(var tool in item.Tools) 
-                {
-                    tool.Tool = await this.context.Tools.FindAsync(tool.ToolId);
-                }
-            }
 
             return outputTools;
         }

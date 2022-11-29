@@ -1,5 +1,37 @@
 <div class="row">
     <h4 class="mt-4 text-center">Registro de salidas de equipos</h4>
     <div class="col">
+        <table class="table mt-4" *ngIf="outputTools">
+            <thead>
+                <tr>
+                    <th>
+                        Fecha de salida
+                    </th>
+                    <th>
+                        Responsable
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let outputTool of outputTools">
+                    <td>{{ outputTool.outputDateTime | date:'dd/MM/YYYY' }}</td>
+                    <td>{{ outputTool.responsible.name }}</td>
+                    <td>
+                        {{ outputTool.outputToolState | outputToolState }}
+                    </td>
+                    <td>
+                        <a [routerLink]="[outputTool.outputToolId]">
+                            <fa-icon [icon]="faCircleInfo" class="text-primary"></fa-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
