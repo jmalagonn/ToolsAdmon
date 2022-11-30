@@ -4,12 +4,13 @@ using API.Interfaces;
 using API.Repositories;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
@@ -17,10 +18,20 @@ namespace API.Extensions
             services.AddScoped<ICompaniesRepository, CompaniesRepository>();
             services.AddScoped<IToolsRepository, ToolsRepository>();
             services.AddScoped<IOutputToolsRepository, OutputToolsRepository>();
-            services.AddDbContext<DataContext>(options =>
+
+            if (builder.Environment.IsDevelopment())
             {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            });
+                services.AddDbContext<DataContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                });
+            } 
+            else
+            {
+                services.AddDbContext<DataContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+            }
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "ClientAppCors",
