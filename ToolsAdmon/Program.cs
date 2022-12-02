@@ -48,16 +48,7 @@ app.UseRouting();
 app.UseCors("ClientAppCors");
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapFallbackToController("Index", "Fallback");
-});
 
 app.MapControllers();
 
